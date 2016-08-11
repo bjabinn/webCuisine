@@ -22,3 +22,91 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#poster {
+    padding: 0;
+    background: lightblue;
+}
+
+#poster h1 {
+    text-align: center;
+    padding: 0;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: lightblue; 
+ }
+
+table {
+    border-collapse:separate;    
+    border-radius:6px;
+    -moz-border-radius:6px;
+    border: solid 1px lightblue;
+}
+
+#feeds tr td {    
+    border-radius: 5px;
+}
+
+.table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #DDD;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+@media screen and (min-width: 768px) {
+    .jumbotron {
+        padding-top: 20px;
+    }    
+}
+
+
+
+/* NAVBAR */
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #000;  /*Sets the text hover color on navbar*/
+    background: aliceblue;
+    border-radius: 15px;
+    border: none;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >   
+ a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: white; 
+    background-color: #66CCFF;
+    border-radius: 15px;
+    text-decoration: underline;
+}
+
+  .navbar-default {
+    background-color: white;
+    border-color: #030033;
+    color: #262626;
+}
+
+  .dropdown-menu > li > a:hover,
+   .dropdown-menu > li > a:focus {
+    color: #262626;
+   text-decoration: none;
+  background-color: #66CCFF;  
+   }
+
+ .nav > li > a:hover,
+ .nav > li > a:focus {
+    text-decoration: none;
+    background-color: silver; 
+  }
+
+
+  .navbar-default .navbar-nav > li > a {
+   color: #262626; 
+ }
+
+
+
