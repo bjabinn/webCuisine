@@ -1,8 +1,133 @@
-﻿<Window x:Class="WPF.MainWindow"
+﻿<Window x:Name="initialWindow" x:Class="WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                
+        xmlns:helpers="clr-namespace:WPF"
+        Title="RSS Reader" Height="707.425" Width="758" Icon="iconRssReader.png" Left="10" Top="10">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#FF4169AA" />
+        <SolidColorBrush x:Key="PrimaryFont" Color="White" />
+
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryFont}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="MyFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control}">
+                        <Grid Margin="3 2">
+                            <Rectangle Name="r1" StrokeThickness="1" Stroke="Black" StrokeDashArray="2 2"/>
+                            <Border Name="border" Width="{TemplateBinding ActualWidth}" Height="{TemplateBinding ActualHeight}"  CornerRadius="2" BorderThickness="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ShadowStyle">
+            <Setter Property="Control.Foreground" Value="LightGray" />
+        </Style>
+
+        <Style x:Key="InformButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontFamily" Value="Verdana"/>
+            <Setter Property="FontSize" Value="11px"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisual}" />
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                        <GradientStop Color="#FFFFD190" Offset="0.2"/>
+                        <GradientStop Color="Orange" Offset="0.85"/>
+                        <GradientStop Color="#FFFFD190" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				BorderThickness="1"
+        				Padding="4,2" 
+        				BorderBrush="DarkGray" 
+        				CornerRadius="3" 
+        				Background="{TemplateBinding Background}">
+                            <Grid >
+                                <ContentPresenter HorizontalAlignment="Center" 
+        	                           VerticalAlignment="Center" Name="contentShadow" 
+        					Style="{StaticResource ShadowStyle}">
+                                    <ContentPresenter.RenderTransform>
+                                        <TranslateTransform X="1.0" Y="1.0" />
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF4788c8" />
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" >
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                                            <GradientStop Color="#FFFFD190" Offset="0.35"/>
+                                            <GradientStop Color="Orange" Offset="0.95"/>
+                                            <GradientStop Color="#FFFFD190" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="content" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                                <Setter Property="Foreground" Value="Gray" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid RenderTransformOrigin="0.497,0.62">
+        <Button Style="{StaticResource InformButton}" x:Name="BtnUpdateRss" Content="Get Feeds of Channel9" HorizontalAlignment="Left" Margin="13,6,0,0" VerticalAlignment="Top" Width="159" Click="btnUpdateRSS_Click"/>
+
+        <Border BorderThickness="0" Margin="10" CornerRadius="15">
+            <Border.BitmapEffect>
+                <DropShadowBitmapEffect/>
+            </Border.BitmapEffect>
+            <Grid>
+                <Border x:Name="BDRounded" BorderThickness="0" CornerRadius="15" Background="White" Margin="0,21,0,-21" Height="336" VerticalAlignment="Top">
+                    <DataGrid IsSynchronizedWithCurrentItem="True" x:Name="GridFeeds" SelectionMode="Single" SelectionUnit="FullRow" AlternatingRowBackground="Azure" AlternationCount="2" CanUserAddRows="False" CanUserSortColumns="True" IsReadOnly="True" AutoGenerateColumns="False" Margin="13,6,10,0" Height="316" VerticalAlignment="Top">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="0.2*" Header="Published" Binding="{Binding PubDate}"/>
+                            <DataGridTextColumn Width="0.8*" Header="Title" Binding="{Binding Title}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Name="Mask" CornerRadius="20" Width="auto" BorderThickness="1" BorderBrush="LightGray" Margin="10,377,10,24">
+            <WebBrowser helpers:WebBrowserUtility.Html="{Binding Path=Content}" x:Name="WebBrowser1" Margin="12,6,11,19"/>
+        </Border>
     </Grid>
 </Window>
